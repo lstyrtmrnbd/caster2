@@ -1,7 +1,7 @@
 #include <iostream>
 #include <png.h>
 
-#include "surfaces.hpp"
+#include "structures.hpp"
 
 std::ostream& operator<< (std::ostream &out, const vec3 &vec) {
   out << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
@@ -9,7 +9,9 @@ std::ostream& operator<< (std::ostream &out, const vec3 &vec) {
 }
 
 std::ostream& operator<< (std::ostream &out, const Sphere &sphere) {
-  out << "Sphere(" << sphere.position << ", " << sphere.radius << ")";
+  out << "Sphere("
+      << "pos:" << sphere.position
+      << ", rad:" << sphere.radius << ")";
   return out;
 }
 
