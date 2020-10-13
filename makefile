@@ -1,18 +1,17 @@
 CXX = clang
 
-DEVCFLAGS =  -ggdb -Wall -Wextra -Werror -Wpedantic -std=c++14
+DEVCFLAGS =  -ggdb -Wall -Wextra -Werror -Wpedantic -std=c++17
 
-LIBS = -lstdc++ -lpng
-OLDLIBS = -lstdc++ -lsfml-graphics -lsfml-window -lsfml-system
+LIBS = -lstdc++ -lm -lpng
 TESTLIBS = -lstdc++ -lm
 
 #---- primary target
-OBJECTS = build/main.o
+OBJ = build/main.o
 
-caster2: $(OBJECTS)
+caster2: $(OBJ)
 	$(CXX) $(DEVCFLAGS) -o $@ $^ $(LIBS)
 
-build/%.o : src/%.cpp
+$(OBJ): build/%.o : src/%.cpp
 	$(CXX) $(DEVCFLAGS) -c $< -o $@
 
 #---- tests target
@@ -28,4 +27,4 @@ build/%.o : tests/%.cpp
 
 #---- clean
 clean:
-	rm $(OBJECTS) $(TESTOBJ)
+	rm $(OBJ) $(TESTOBJ)
