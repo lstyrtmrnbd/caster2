@@ -1,8 +1,10 @@
-#include <iostream>
+#include <vector>
 #include <glm/vec3.hpp>
 #include <glm/geometric.hpp>
 
 using vec3 = glm::dvec3;
+
+using std::vector;
 
 using glm::cross, glm::normalize;
 
@@ -29,6 +31,30 @@ struct Plane {
 
   Plane(vec3 pos, vec3 norm)
     : position(pos), normal(norm) {}
+};
+
+//// Light Structures
+
+struct AmbientLight {
+  vec3 intensity;
+
+  AmbientLight(vec3 intensity)
+    : intensity(intensity) {}
+};
+
+struct DistantLight {
+  vec3 direcion, intensity;
+
+  DistantLight(vec3 direction, vec3 intensity)
+    : direction(direction), intensity(intensity) {}
+};
+
+struct PointLight {
+  vec3 position, intensity;
+  const double epsilon = .75; // used to decrease distance attenuation
+
+  PointLight(vec3 position, vec3 intensity)
+    : position(position), intensity(intensity) {}
 };
 
 //// Tracing Structures
@@ -58,4 +84,6 @@ struct IntersectionRecord {
     : distance(distance), point(point), normal(normal), direction(direction);
 };
 
-
+// struct Object {
+//   vector<Surface*> surface;
+// };
