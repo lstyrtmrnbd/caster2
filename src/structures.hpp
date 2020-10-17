@@ -2,11 +2,9 @@
 #include <glm/vec3.hpp>
 #include <glm/geometric.hpp>
 
-using vec3 = glm::dvec3;
-
 using std::vector;
-
-using glm::cross, glm::normalize;
+using vec3 = glm::dvec3;
+using glm::cross, glm::normalize, glm::dot;
 
 //// Surface Structures
 
@@ -75,15 +73,19 @@ struct Material {
       shineA(shineA) {}
 };
 
-struct IntersectionRecord {
+struct Intersection {
   vec3 point, normal, direction; // ray.direction
   double distance;
   Material* material;
 
-  IntersectionRecord(double distance, vec3 point, vec3 normal, vec3 direction)
+  Intersection(double distance, vec3 point, vec3 normal, vec3 direction)
     : distance(distance), point(point), normal(normal), direction(direction);
 };
 
-// struct Object {
-//   vector<Surface*> surface;
-// };
+struct Object {
+  vector<Surface*> surfaces;
+  Material* material;
+
+  Object(vector<Surface*>& surfaces, Material* material)
+    : surfaces(surfaces), material(material);
+};
