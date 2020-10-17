@@ -1,6 +1,6 @@
 CXX = clang
 
-DEVCFLAGS =  -ggdb -Wall -Wextra -Werror -Wpedantic -std=c++17
+DEVCFLAGS =  -ggdb -Wall -Wextra -Werror -Wpedantic -std=c++20
 
 LIBS = -lstdc++ -lm -lpng
 TESTLIBS = -lstdc++ -lm
