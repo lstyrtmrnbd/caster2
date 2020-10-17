@@ -8,27 +8,48 @@ using glm::cross, glm::normalize, glm::dot;
 
 //// Surface Structures
 
-struct Sphere {
+struct Material {
+  vec3 color = vec3(0.0, 0.0, 0.0);
+  vec3 ambk  = vec3(1.0,1.0,1.0);
+  vec3 diffk = vec3(1.0,1.0,1.0);
+  vec3 speck = vec3(1.0,1.0,1.0);
+  double shineA;
+
+  // plain colored material
+  Material(vec3 color) : color(color) {}
+  
+  Material(vec3 color, vec3 ambk, vec3 diffk, vec3 speck, double shineA)
+    : color(color), ambk(ambk), diffk(diffk),
+      speck(speck), shineA(shineA) {}
+};
+
+struct Shape {
+  Material* material;
+
+  Shape(Material* material) : material(material) {}
+};
+
+struct Sphere : public Shape {
   vec3 position;
   double radius;
 
-  Sphere(vec3 pos, double rad)
-    : position(pos), radius(rad) {}
+  Sphere(vec3 pos, double rad, Material* material)
+    : Shape(material), position(pos), radius(rad) {}
 };
 
-struct Triangle {
+struct Triangle : public Shape {
   vec3 p1, p2, p3, normal;
 
-  Triangle(vec3 p1, vec3 p2, vec3 p3)
-    : p1(p1), p2(p2), p3(p3),
+  Triangle(vec3 p1, vec3 p2, vec3 p3, Material* material)
+    : Shape(material), p1(p1), p2(p2), p3(p3),
       normal(normalize(cross(p2 - p1, p3 - p1))) {}
 };
 
-struct Plane {
+struct Plane : public Shape {
   vec3 position, normal;
 
-  Plane(vec3 pos, vec3 norm)
-    : position(pos), normal(norm) {}
+  Plane(vec3 pos, vec3 norm, Material* material)
+    : Shape(material), position(pos), normal(norm) {}
 };
 
 //// Light Structures
@@ -41,8 +62,8 @@ struct AmbientLight {
 };
 
 struct DistantLight {
-  vec3 direcion, intensity;
-
+  vec3 direction, intensity;
+  
   DistantLight(vec3 direction, vec3 intensity)
     : direction(direction), intensity(intensity) {}
 };
@@ -64,28 +85,21 @@ struct Ray {
     : origin(origin), direction(direction) {}
 };
 
-struct Material {
-  vec3 color, ambk, diffk, speck;
-  double shineA;
-
-  Material(vec3 color, vec3 ambk, vec3 diffk, vec3 speck)
-    : color(color), ambk(ambk), diffk(difk), speck(speck),
-      shineA(shineA) {}
-};
-
 struct Intersection {
-  vec3 point, normal, direction; // ray.direction
   double distance;
+  vec3 point, normal, direction; // ray.direction
   Material* material;
 
-  Intersection(double distance, vec3 point, vec3 normal, vec3 direction)
-    : distance(distance), point(point), normal(normal), direction(direction);
+  Intersection(double distance, vec3 point, vec3 normal, vec3 direction, Material* material)
+    : distance(distance), point(point), normal(normal),
+      direction(direction), material(material) {}
 };
 
-struct Object {
-  vector<Surface*> surfaces;
-  Material* material;
+// work out how the surface -> material mapping should look
+// struct Object {
+//   vector<Surface*> surfaces;
+//   Material* material;
 
-  Object(vector<Surface*>& surfaces, Material* material)
-    : surfaces(surfaces), material(material);
-};
+//   Object(vector<Surface*>& surfaces, Material* material)
+//     : surfaces(surfaces), material(material);
+// };

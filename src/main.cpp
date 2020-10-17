@@ -1,7 +1,6 @@
 #include <iostream>
 #include <png.h>
-#include "structures.hpp"
-#include "raycast.hpp"
+#include "raytrace.hpp"
 
 using std::ostream, std::cout;
 
@@ -28,10 +27,11 @@ ostream& operator<< (ostream &out, const Triangle &triangle) {
 
 int main() {
 
-  Sphere* s = new Sphere(vec3(0.1,0.2,0.3), 0.5);
+  Material* g = new Material(vec3(0.0,1.0,0.0));
+  Sphere* s = new Sphere(vec3(0.1,0.2,0.3), 0.5, g);
   Triangle* t = new Triangle(vec3(1.0,0.0,0.0),
                              vec3(0.0,1.0,0.0),
-                             vec3(0.0,0.0,1.0));
+                             vec3(0.0,0.0,1.0), g);
   cout << *s << "\n";
   cout << *t << "\n";
   return 0;
