@@ -1,21 +1,23 @@
 #include <iostream>
 #include <png.h>
-
 #include "structures.hpp"
+#include "raycast.hpp"
 
-std::ostream& operator<< (std::ostream &out, const vec3 &vec) {
+using std::ostream, std::cout;
+
+ostream& operator<< (ostream &out, const vec3 &vec) {
   out << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
   return out;
 }
 
-std::ostream& operator<< (std::ostream &out, const Sphere &sphere) {
+ostream& operator<< (ostream &out, const Sphere &sphere) {
   out << "Sphere("
       << "pos:" << sphere.position
       << ", rad:" << sphere.radius << ")";
   return out;
 }
 
-std::ostream& operator<< (std::ostream &out, const Triangle &triangle) {
+ostream& operator<< (ostream &out, const Triangle &triangle) {
   out << "Triangle("
       << "p1:" << triangle.p1 << ", "
       << "p2:" << triangle.p2 << ", "
@@ -30,7 +32,7 @@ int main() {
   Triangle* t = new Triangle(vec3(1.0,0.0,0.0),
                              vec3(0.0,1.0,0.0),
                              vec3(0.0,0.0,1.0));
-  std::cout << *s << "\n";
-  std::cout << *t << "\n";
+  cout << *s << "\n";
+  cout << *t << "\n";
   return 0;
 }

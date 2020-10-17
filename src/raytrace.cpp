@@ -1,5 +1,6 @@
 #include "raytrace.hpp"
 
+// Sphere Intersection
 // somewhat more optimized, less sqrt
 // originally transcribed from Sherrod
 optional<Intersection> intersect(const Sphere& sphere, const Ray &ray) {
@@ -79,6 +80,7 @@ optional<Intersection> intersect(const Triangle& triangle, const Ray& ray) {
   return Intersection(distance, interPt, normal, direction);
 }
 
+// Plane Intersetion
 optional<Intersection> intersect(const Plane& plane, const Ray &ray) {
 
   const auto [origin, direction] = plane;
