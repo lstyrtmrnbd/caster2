@@ -3,7 +3,7 @@
 // Sphere Intersection
 // somewhat more optimized, less sqrt
 // originally transcribed from Sherrod
-optional<Intersection> intersect(const Sphere& sphere, const Ray &ray) {
+optional<Intersection> intersect(const Sphere& sphere, const Ray& ray) {
 
   const auto [position, radius, material]  = sphere;
   const auto [origin, direction] = ray;
@@ -81,7 +81,7 @@ optional<Intersection> intersect(const Triangle& triangle, const Ray& ray) {
 }
 
 // Plane Intersetion
-optional<Intersection> intersect(const Plane& plane, const Ray &ray) {
+optional<Intersection> intersect(const Plane& plane, const Ray& ray) {
 
   const auto [origin, direction, material] = plane;
   const auto [position, radius]  = ray;
@@ -102,3 +102,6 @@ optional<Intersection> intersect(const Plane& plane, const Ray &ray) {
   return Intersection(distance, interPt, normal, direction, material);
 }
 
+vector<Intersection>* raytrace(const vector<Shape>& shapes, const vector<Ray>& ray) {
+
+}
