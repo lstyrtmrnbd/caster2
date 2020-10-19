@@ -94,12 +94,3 @@ struct Intersection {
     : distance(distance), point(point), normal(normal),
       direction(direction), material(material) {}
 };
-
-// work out how the surface -> material mapping should look
-// struct Object {
-//   vector<Surface*> surfaces;
-//   Material* material;
-
-//   Object(vector<Surface*>& surfaces, Material* material)
-//     : surfaces(surfaces), material(material);
-// };

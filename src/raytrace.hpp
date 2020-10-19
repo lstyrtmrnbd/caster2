@@ -1,4 +1,6 @@
+#include <future>
 #include <optional>
+#include <thread>
 #include "structures.hpp"
 
 using std::optional, std::nullopt;
