@@ -1,5 +1,7 @@
 #include "raytrace.hpp"
 
+//// The Work of Intersection ////
+
 // Sphere Intersection
 // somewhat more optimized, less sqrt
 // originally transcribed from Sherrod
@@ -97,4 +99,61 @@ optional<Intersection> intersect(const Plane& plane, const Ray& ray, Material* m
   vec3 interPt = origin + distance * direction;
 
   return Intersection(distance, interPt, normal, direction, material);
+}
+
+// Scene Intersection
+// the level above pure intersection functions, passes in material info
+// a good candidate for threading
+vector<Intersection> intersect(const Scene& scene, const Ray& ray) {
+
+  const auto& [planes, spheres, triangles, _] = scene;
+  
+  vector<optional<Intersection>> intersections{};
+
+  // for(const auto& [plane, material] : planes) {
+  //   intersections.push_back(intersect(plane, ray, material));
+  // }
+
+  // do the above as
+  auto doIntersect = [&ray](const auto& shape) {
+                       const auto& [form, material] = shape;
+                       return intersect(form, ray, material);
+                     };
+  
+  transform(planes.begin(), planes.end(),
+            back_inserter(intersections),
+            doIntersect);
+
+  transform(spheres.begin(), spheres.end(),
+            back_inserter(intersections),
+            doIntersect);
+
+  transform(triangles.begin(), triangles.end(),
+            back_inserter(intersections),
+            doIntersect);
+
+  remove_if(intersections.begin(), intersections.end(),
+            [](auto inter){ return !inter.has_value(); });
+
+  vector<Intersection> result{};
+  
+  transform(intersections.begin(), intersections.end(),
+            back_inserter(result),
+            [](auto inter){ return *inter; });
+
+  return result;
+}
+
+//// Scene Manipulation ////
+
+void addTriangle(Scene& scene, vec3 p1, vec3 p2, vec3 p3, Material* material) {
+  scene.triangles.emplace_back(pair<Triangle, Material*>{Triangle{p1, p2, p3}, material});
+}
+
+void addSphere(Scene& scene, vec3 position, double radius, Material* material) {
+  scene.spheres.emplace_back(pair<Sphere, Material*>{Sphere{position, radius}, material});
+}
+
+void addPlane(Scene& scene, vec3 position, vec3 normal, Material* material) {
+  scene.planes.emplace_back(pair<Plane, Material*>{Plane{position, normal}, material});
 }

@@ -90,10 +90,15 @@ struct Intersection {
       direction(direction), material(material) {}
 };
 
+// Scenes hold and associate shapes and materials
 struct Scene {
+
   vector<pair<Plane, Material*>> planes;
   vector<pair<Sphere, Material*>> spheres;
   vector<pair<Triangle, Material*>> triangles;
 
-  
+  vector<Material> materials;
+
+  Scene() : planes(), spheres(), triangles(), materials() {}
 };
+
