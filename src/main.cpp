@@ -1,4 +1,5 @@
 #include <iostream>
+#include <optional>
 #include <png.h>
 #include "raytrace.hpp"
 
@@ -48,10 +49,10 @@ ostream& operator<<(ostream& os, const vector<T>& vec) {
 int main() {
 
   Material* g = new Material(vec3(0.0,1.0,0.0));
-  Sphere*   s = new Sphere(vec3(0.1,0.2,0.3), 0.5, g);
+  Sphere*   s = new Sphere(vec3(0.1,0.2,0.3), 0.5);
   Triangle* t = new Triangle(vec3(1.0,0.0,0.0),
                              vec3(0.0,1.0,0.0),
-                             vec3(0.0,0.0,1.0), g);
+                             vec3(0.0,0.0,1.0));
   Ray*      r = new Ray(vec3(0.0,0.0,0.0),
                         vec3(0.0,0.0,1.0));
   
@@ -59,10 +60,10 @@ int main() {
   cout << *s << "\n";
   cout << *t << "\n";
 
-  vector<Intersection>* intersections = new vector<Intersection>();
-  intersections->push_back(intersect(*s, *r));
+  auto intersections = new vector<optional<Intersection>>{};
+  intersections->push_back(intersect(*s, *r, g));
 
-  cout << *intersections << "\n";
+  cout << intersections << "\n";
   
   return 0;
 }

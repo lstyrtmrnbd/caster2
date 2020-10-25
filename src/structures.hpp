@@ -1,8 +1,9 @@
 #include <vector>
+#include <utility>
 #include <glm/vec3.hpp>
 #include <glm/geometric.hpp>
 
-using std::vector;
+using std::vector, std::pair;
 using vec3 = glm::dvec3;
 using glm::cross, glm::normalize, glm::dot;
 
@@ -23,33 +24,27 @@ struct Material {
       speck(speck), shineA(shineA) {}
 };
 
-struct Shape {
-  Material* material;
-
-  Shape(Material* material) : material(material) {}
-};
-
-struct Sphere : public Shape {
+struct Sphere {
   vec3 position;
   double radius;
 
-  Sphere(vec3 pos, double rad, Material* material)
-    : Shape(material), position(pos), radius(rad) {}
+  Sphere(vec3 pos, double rad)
+    : position(pos), radius(rad) {}
 };
 
-struct Triangle : public Shape {
+struct Triangle {
   vec3 p1, p2, p3, normal;
 
-  Triangle(vec3 p1, vec3 p2, vec3 p3, Material* material)
-    : Shape(material), p1(p1), p2(p2), p3(p3),
+  Triangle(vec3 p1, vec3 p2, vec3 p3)
+    : p1(p1), p2(p2), p3(p3),
       normal(normalize(cross(p2 - p1, p3 - p1))) {}
 };
 
-struct Plane : public Shape {
+struct Plane {
   vec3 position, normal;
 
-  Plane(vec3 pos, vec3 norm, Material* material)
-    : Shape(material), position(pos), normal(norm) {}
+  Plane(vec3 pos, vec3 norm)
+    : position(pos), normal(norm) {}
 };
 
 //// Light Structures
@@ -93,4 +88,12 @@ struct Intersection {
   Intersection(double distance, vec3 point, vec3 normal, vec3 direction, Material* material)
     : distance(distance), point(point), normal(normal),
       direction(direction), material(material) {}
+};
+
+struct Scene {
+  vector<pair<Plane, Material*>> planes;
+  vector<pair<Sphere, Material*>> spheres;
+  vector<pair<Triangle, Material*>> triangles;
+
+  
 };

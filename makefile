@@ -6,7 +6,7 @@ LIBS = -lstdc++ -lm -lpng
 TESTLIBS = -lstdc++ -lm
 
 #---- primary target
-OBJ = build/main.o
+OBJ = build/raytrace.o build/main.o 
 
 caster2: $(OBJ)
 	$(CXX) $(DEVCFLAGS) -o $@ $^ $(LIBS)

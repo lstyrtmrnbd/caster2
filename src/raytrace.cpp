@@ -3,9 +3,9 @@
 // Sphere Intersection
 // somewhat more optimized, less sqrt
 // originally transcribed from Sherrod
-optional<Intersection> intersect(const Sphere& sphere, const Ray& ray) {
+optional<Intersection> intersect(const Sphere& sphere, const Ray& ray, Material* material) {
 
-  const auto [position, radius, material]  = sphere;
+  const auto [position, radius]  = sphere;
   const auto [origin, direction] = ray;
   
   vec3 rsVec = position - origin;
@@ -37,16 +37,13 @@ optional<Intersection> intersect(const Sphere& sphere, const Ray& ray) {
 
 // Triangle Intersection
 // annotations match up to wikipedia "Möller-Trumbore intersection algorithm"
-optional<Intersection> intersect(const Triangle& triangle, const Ray& ray) {
+optional<Intersection> intersect(const Triangle& triangle, const Ray& ray, Material* material) {
 
-  const auto [p1, p2, p3, normal, material] = triangle;
+  const auto [p1, p2, p3, normal] = triangle;
   const auto [origin, direction]  = ray;
   
   vec3 vecAB = p2 - p1;                           //edge1
   vec3 vecAC = p3 - p1;                           //edge2
-
-  vec3 origin = origin;
-  vec3 direction = direction;
 
   vec3 crossProduct = cross(direction, vecAC);    //h
 
@@ -81,10 +78,10 @@ optional<Intersection> intersect(const Triangle& triangle, const Ray& ray) {
 }
 
 // Plane Intersetion
-optional<Intersection> intersect(const Plane& plane, const Ray& ray) {
+optional<Intersection> intersect(const Plane& plane, const Ray& ray, Material* material) {
 
-  const auto [origin, direction, material] = plane;
-  const auto [position, radius]  = ray;
+  const auto [origin, normal] = plane;
+  const auto [position, direction]  = ray;
   
   double denom = dot(normal, direction);
 
@@ -100,8 +97,4 @@ optional<Intersection> intersect(const Plane& plane, const Ray& ray) {
   vec3 interPt = origin + distance * direction;
 
   return Intersection(distance, interPt, normal, direction, material);
-}
-
-vector<Intersection>* raytrace(const vector<Shape>& shapes, const vector<Ray>& ray) {
-
 }
