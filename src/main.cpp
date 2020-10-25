@@ -62,11 +62,6 @@ int main() {
   cout << *s << "\n";
   cout << *t << "\n";
 
-  //auto intersections = new vector<optional<Intersection>>{};
-  //intersections->push_back(intersect(*s, *r, g.get()));
-
-  //cout << intersections << "\n";
-  
   auto scene = make_unique<Scene>();
   addTriangle(*scene,
               vec3(1.0,0.0,0.0),

@@ -110,11 +110,6 @@ vector<Intersection> intersect(const Scene& scene, const Ray& ray) {
   
   vector<optional<Intersection>> intersections{};
 
-  // for(const auto& [plane, material] : planes) {
-  //   intersections.push_back(intersect(plane, ray, material));
-  // }
-
-  // do the above as
   auto doIntersect = [&ray](const auto& shape) {
                        const auto& [form, material] = shape;
                        return intersect(form, ray, material);
